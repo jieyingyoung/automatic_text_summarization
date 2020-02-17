@@ -1,0 +1,140 @@
+<!--
+ * @Description: This is a html file
+ * @Author: JeanneWu
+ * @Date: 2019-12-04 13:25:01
+ * @Adopted: Yang Jieying
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Automatic text summarization(English)</title>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <!--使用Bootstrap的js插件，必须先调入jQuery-->
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        body{background-color: #000000}
+    </style>
+</head>
+<style>
+    .container {
+        padding: 50px 10px;
+    }
+
+    .title {
+        text-align: center;
+        color: white;
+        font-weight: 1500;
+        font-size: 26px;
+    }
+
+    .form-group{
+        color: white;
+    }
+
+    .showContent {
+        background: black;
+        color: white;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+</style>
+
+<body>
+
+    <div class="container">
+        <div class="title">Automatic Text Summarization</div>
+        <!-- <center><label for="language">Please choose a language:</label>
+        </center>
+        <center><select id="language" name="language">
+            <option value="English">English</option>
+            <option value="Chinese">Chinese</option>
+        </select></center> -->
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">TITLE</label>
+                <input type="text" class="form-control" id="exampleInputTitle" placeholder="Please paste the title here">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputContent">CONTENT</label>
+                <textarea rows="10" id="exampleInputContent" class="form-control" placeholder="Please paste the content here" rows="3"></textarea>
+            </div>
+            <button id="submit" type="button" class="btn btn-default">Submit</button>
+        </form>
+
+        <div class="showContent">
+            <label for="SummarizationHere">SUMMARIZATION:</label>
+                <textarea type="text" class="form-control" id="SummarizationHere" placeholder="Summarization will be shown here."></textarea>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    $(document).ready(function () {
+        $('#submit').click(function () {
+            var exampleInputTitle = $('#exampleInputTitle').val();
+            var exampleInputContent = $('#exampleInputContent').val();
+            // var language = $('#language').val();
+            if (!exampleInputTitle) {
+                alert("Please input the title");
+                return;
+            }
+            if (!exampleInputContent) {
+                alert("Please input the content");
+                return;
+            }
+            // $.post(
+            //     "/testing", {
+            //         title: exampleInputTitle,
+            //         content: exampleInputContent
+            //     },
+            //     function (data) {
+            //         console.log(data);
+            //     }
+            // );
+
+            jQuery.support.cors = true;
+            $.ajax({
+                url: "http://88.99.87.163:5444/testing",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+                    // xhr.setRequestHeader("Origin", "*");
+                },
+                async: false,
+                cache: false,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'token': '1234'
+                },
+                crossDomain: true,
+                data: {
+                    title: exampleInputTitle,
+                    content: exampleInputContent
+                    // language: language
+                },
+                contentType: "application/x-www-form-urlencoded",
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    //dataType指明了返回数据为json类型，故不需要再反序列化
+                    console.log(data);
+                    $('.showContent').html(data.summarization);
+
+
+                }
+            });
+
+        });
+    });
+</script>
+
+</html>

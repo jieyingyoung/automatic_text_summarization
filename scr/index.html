@@ -1,0 +1,164 @@
+<!--
+ * @Description: This is a html file
+ * @Author: JeanneWu
+ * @Date: 2019-12-04 13:25:01
+ * @Adopted: Yang Jieying
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Automatic text summarization(Chinese)</title>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <!--使用Bootstrap的js插件，必须先调入jQuery-->
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        body{background-color: #000000}
+    </style>
+</head>
+<style>
+    .container {
+        padding: 50px 10px;
+    }
+
+    .title {
+        text-align: center;
+        color: white;
+        font-weight: 1500;
+        font-size: 26px;
+    }
+
+    .form-group{
+        color: white;
+    }
+
+    .showContent {
+        background: black;
+        color: white;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+</style>
+
+<body>
+
+    <div class="container">
+        <div class="title">自动文本摘要（中文版）</div>
+        <!-- <center><label for="language">Please choose a language:</label>
+        </center>
+        <center><select id="language" name="language">
+            <option value="English">English</option>
+            <option value="Chinese">Chinese</option>
+        </select></center> -->
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">标题</label>
+                <input type="text" class="form-control" id="exampleInputTitle" value="请粘贴标题于此--------------例如：泰国枪击案致26人死亡，凶手对峙中被击毙" placeholder="请粘贴标题于此" />
+            </div>
+            <div class="form-group">
+                <label for="exampleInputContent">内容</label>
+                <textarea rows="10" id="exampleInputContent" class="form-control" placeholder="请粘贴长文本内容于此" rows="3">
+请粘贴长文本内容于此-----------例如：
+经过一晚对峙，早前在泰国东北部呵叻府挟持多名人质的士兵被警察击毙，这宗枪击案造成最少26人死亡。
+
+一名32岁泰国军队军士长乍甲班特周六（2月8日）下午杀害自己的指挥官后，从呵叻府当地一个军事基地偷取武器，然后开车到一家大型商场向途人扫射，造成多人伤亡。他在行凶过程中多次在自己的社交网站Facebook帐号留言。
+
+据报这名士兵之后在一家商场内挟持多名市民。当地警方在军队的协助入内搜捕，不时传出枪声，经过一晚对峙后，乍甲班特最后被击毙。行动中一名保安部队成员殉职，另有两人受伤。
+
+目前未清楚他的行凶动机。路透社引述泰国国防部一名发言人形容，乍甲班特好像“疯了一样”。
+发生什么事？
+乍甲班特周六当地时间约下午三点半（即北京时间约四时半）在军营枪杀一名指挥官，同时杀害这名指挥官的岳母和另外一名士兵。之后, 他从军营偷取武器，傍晚六点左右开车到一家称为Terminal 21的商场，与保安部队展开超过半天的对峙。
+
+现场闭路电视片段显示，他举着枪在商场内走动。泰国媒体拍到的画面也显示，乍甲班特下车后开始开火，其他人纷纷躲避。
+
+商场内当时仍然有许多顾客，其中一名成功逃脱的顾客对BBC说，事发时她躲进四楼的一个洗手间内，之后逃跑到二 楼一家餐厅，躲在餐桌下方，三个小时内听到最少四响枪声，之后被保安部队疏散到安全地方。
+
+泰国官员透露，商场内16人包括一名保安丧命，另外有四人在送到医院后抢救无效不治。另外两人死亡情况不详。
+他在社交网站发布了什么？
+枪手在行凶过程中多次在社交网站发展帖文，其中一个帖子问到，自己应否向警方投降。
+
+他之前还上传了显示支一手枪和三排子弹的照片，又注明“是时候变得兴奋了”、“没有人可以逃过死亡”。
+
+Facebook目前已经把这些照片删除，又发表声明向遇害者家属表示同情，指出Facebook“不会容许任何人称赞或支持这种袭击”。
+
+</textarea>
+            </div>
+            <button id="submit" type="button" class="btn btn-default">给我摘</button>
+        </form>
+
+        <div class="showContent">
+            <label for="SummarizationHere">摘要如下：</label>
+                <textarea type="text" class="form-control" id="SummarizationHere" placeholder="摘要会显示在这里"></textarea>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    $(document).ready(function () {
+        $('#submit').click(function () {
+            var exampleInputTitle = $('#exampleInputTitle').val();
+            var exampleInputContent = $('#exampleInputContent').val();
+            // var language = $('#language').val();
+            if (!exampleInputTitle) {
+                alert("请输入标题");
+                return;
+            }
+            if (!exampleInputContent) {
+                alert("请输入内容");
+                return;
+            }
+            // $.post(
+            //     "/testing", {
+            //         title: exampleInputTitle,
+            //         content: exampleInputContent
+            //     },
+            //     function (data) {
+            //         console.log(data);
+            //     }
+            // );
+
+            jQuery.support.cors = true;
+            $.ajax({
+                url: "http://88.99.87.163:5444/testing",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+                    // xhr.setRequestHeader("Origin", "*");
+                },
+                async: false,
+                cache: false,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'token': '1234'
+                },
+                crossDomain: true,
+                data: {
+                    title: exampleInputTitle,
+                    content: exampleInputContent
+                    // language: language
+                },
+                contentType: "application/x-www-form-urlencoded",
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    //dataType指明了返回数据为json类型，故不需要再反序列化
+                    console.log(data);
+                    $('.showContent').html(data.summarization);
+
+
+                }
+            });
+
+        });
+    });
+</script>
+
+</html>

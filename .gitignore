@@ -1,0 +1,23 @@
+
+*.pdf
+.idea
+*.txt
+*.pptx
+*.ppt
+
+
+#folders
+_MACOSX\
+codes_group/
+data/
+data_cn/
+evaluation_data/
+model/
+New folder/
+project-1-refpaper_3/
+results/
+scr_2languages/
+SIF-master/
+tem/
+news_extraction/
+scr/__pycache__/
